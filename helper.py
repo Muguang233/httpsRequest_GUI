@@ -52,3 +52,17 @@ def get_request(type:str, url:str, body:dict, check:bool):
       'status_code': 404,
       'body': "请求失败"
     }
+  
+def get_saved_url(tp:str):
+  path = f"./save/{tp}.txt"
+  try:
+    with open(path, 'r', encoding='utf-8') as file:
+      lines = [line.strip() for line in file]
+    return lines
+  except FileNotFoundError:
+    print(f"错误：文件 '{path}' 未找到。")
+    return []
+def save_url(url:str, tp:str):
+  path = f"./save/{tp}.txt"
+  with open(path, 'a', encoding='utf-8') as f:
+    f.write(url+'\n')
