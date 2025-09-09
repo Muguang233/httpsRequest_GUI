@@ -21,8 +21,9 @@ class Mainwindow():
     self.window = QUiLoader().load('./ui/req.ui')
     self.request_body = get_body(self.window.findChild(QTextEdit, "textEdit"))
     self.logger = self.window.findChild(QTextBrowser, "textBrowser")
-    self.window.findChild(QPushButton, "pushButton").clicked.connect(self.send_request)
-    self.window.findChild(QPushButton, "pushButton_4").clicked.connect(self.clear_logger)
+    self.listener()
+  def choose_url(self):
+    pass
   def send_request(self):
     url = self.window.findChild(QLineEdit, "lineEdit").text()
     if not valid_prefix(url, self.logger):
@@ -35,6 +36,11 @@ class Mainwindow():
     self.logger.append(f"响应码: {res['status_code']}\n响应体: {res['body']}")
   def clear_logger(self):
     self.logger.clear()
+  def listener(self):
+    self.window.findChild(QPushButton, "pushButton_4").clicked.connect(self.clear_logger)
+    self.window.findChild(QPushButton, "pushButton").clicked.connect(self.send_request)
+    self.window.findChild(QPushButton, "choose_1").clicked.connect(self.choose_url)
+
 if __name__ == "__main__":
   app = QApplication(sys.argv)
   main = Mainwindow()
