@@ -96,20 +96,13 @@ def get_body(input:QTextEdit):
   return body
 
 def http_request(type:str, url:str, body:dict, check:bool):
-  match type:
-    case "GET":
-      return get_request(type, url, body, check)
-    case "POST":
-      pass
-    
-
-def get_request(type:str, url:str, body:dict, check:bool):
+  method = getattr(requests, type.lower())
   try:
     res:requests.Response
     if check:
-      res = requests.get(url, json=body)
+      res = method(url, json=body)
     else:
-      res = requests.get(url)
+      res = method(url)
     if res.status_code == 200:
       return {
         'status_code': 200,
@@ -120,7 +113,7 @@ def get_request(type:str, url:str, body:dict, check:bool):
         'status_code': res.status_code,
         'body':res.text
       }
-  except requests.exceptions.RequestException as err:
+  except requests.exceptions.RequestException:
     return {
       'status_code': 404,
       'body': "请求失败"
