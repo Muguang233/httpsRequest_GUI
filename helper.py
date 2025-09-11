@@ -1,4 +1,4 @@
-import requests, json, sys
+import requests
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QListWidget, QPushButton,
     QTextBrowser, QTextEdit, QHBoxLayout, QMessageBox
@@ -71,7 +71,7 @@ class UrlSelectDialog(QDialog):
       for i in range(self.list_widget.count()):
         updated_urls.append(self.list_widget.item(i).text())
 
-      with open(self.data_file, 'a', encoding='utf-8') as f:
+      with open(self.data_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(updated_urls))
     except Exception as e:
       QMessageBox.critical(self, "错误", f"保存文件时发生错误：{e}")
